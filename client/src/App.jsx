@@ -8,7 +8,7 @@ import Search from "./pages/Search"
 
 function App() {
   return (
-    <div className="w-full h-screen bg-gradient-to-tr from-black to-gray-800 flex justify-center">
+    <div className="w-full h-full bg-gradient-to-tr from-black to-gray-800 flex justify-center">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Main />} />
