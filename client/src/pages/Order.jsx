@@ -3,6 +3,8 @@ import { useState } from "react"
 import { FaAngleDown, FaAngleUp } from "react-icons/fa"
 import { PiEmptyBold } from "react-icons/pi"
 import { useSelector } from "react-redux"
+import { Toaster } from "react-hot-toast"
+import toast from "react-hot-toast"
 
 const Order = () => {
   const [billingToggle, setBillingToggle] = useState(true);
@@ -16,10 +18,14 @@ const Order = () => {
   });
   const cart = useSelector(state => state.cart);
 
-  const handleOrder = () => {};
+  const handleOrder = () => {
+    toast.success('Your order has been received!')
+  };
 
   return (
     <div className="container">
+      <Toaster position="top-right" />
+
       <Navbar />
 
       <div className="container text-white text-end mx-auto py-8 min-h-96 px-4 md:px-16 lg:px-24">
