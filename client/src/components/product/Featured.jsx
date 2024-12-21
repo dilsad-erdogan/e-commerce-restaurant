@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Hamburger from "/hamburger.png"
 import Pasta from "/pasta.png"
 import Salad from "/salad.png"
 import Card from "./Card";
+import { useDispatch } from "react-redux";
+import { setProducts } from "../../redux/productSlice";
 
 const Products = [
     {
@@ -110,9 +112,14 @@ const Products = [
 ];
 
 const Featured = () => {
+    const dispatch = useDispatch();
     const [selected, setSelected] = useState('All');
     // Filtrelenmiş ürünler
     const filteredProducts = selected === 'All' ? Products : Products.filter(product => product.title === selected);
+
+    useEffect(() => {
+        dispatch(setProducts(Products));
+    }, []);
 
     return (
         <div className="container mt-10">
