@@ -94,7 +94,7 @@ const Basket = () => {
                 <span>${cart.totalPrice.toFixed(2)}</span>
               </div>
 
-              <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2" onClick={() => navigate('/checkout')}>Proced to checkout</button>
+              <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2" onClick={() => navigate('/order')}>Proced to checkout</button>
             </div>
           </div>
 

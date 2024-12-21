@@ -5,12 +5,8 @@ import Reservation from "./pages/Reservation"
 import Basket from "./pages/Basket"
 import Order from "./pages/Order"
 import Search from "./pages/Search"
-import Checkout from "./pages/Checkout"
-import { useState } from "react"
 
 function App() {
-  const [order, setOrder] = useState(null);
-
   return (
     <div className="w-full h-full min-h-screen bg-gradient-to-tr from-black to-gray-800 flex justify-center">
       <BrowserRouter>
@@ -19,9 +15,8 @@ function App() {
           <Route path="/menu" element={<Menu />} />
           <Route path="/reservation" element={<Reservation />} />
           <Route path="/basket" element={<Basket />} />
-          <Route path="/checkout" element={<Checkout setOrder={setOrder} />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/order" element={<Order order={order} />} />
+          <Route path="/order" element={<Order />} />
         </Routes>
       </BrowserRouter>
     </div>
