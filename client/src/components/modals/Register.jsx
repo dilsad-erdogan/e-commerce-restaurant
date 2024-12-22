@@ -1,5 +1,5 @@
 import { useState } from "react"
-import GoogleIcon from "/google.png"
+import { register } from "../../firebase/auth"
 
 const Register = ({ setModalType }) => {
   const [name, setName] = useState(''); 
@@ -8,7 +8,9 @@ const Register = ({ setModalType }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  }
+    await register(name, email, password);
+    setModalType('login');
+  };
 
   return (
     <div className="p-3">
@@ -33,14 +35,14 @@ const Register = ({ setModalType }) => {
         </div>
     
         <div className="p-4">
-          <button type="submit" className="text-white bg-yellow-500 hover:bg-yellow-600 cursor-pointer duration-300 mt-2 py-2 px-8 rounded-full relative z-10 w-full">Login</button>
+          <button type="submit" className="text-white bg-yellow-500 hover:bg-yellow-600 cursor-pointer duration-300 mt-2 py-2 px-8 rounded-full relative z-10 w-full">Register</button>
         </div>
       </form>
     
       {/* Change Form */}
       <div className="flex gap-4 justify-center items-center p-5 border border-gray-500 rounded-lg max-w-[450px] w-full">
         <p>Do you have an account?</p>
-        <span className="text-blue-400" onClick={() => setModalType('login')}>Login</span>
+        <span className="text-blue-400" onClick={() => setModalType('login')}>Register</span>
       </div>
     </div>
   )

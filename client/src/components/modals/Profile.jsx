@@ -1,11 +1,19 @@
 import { useState } from "react";
 import Hamburger from "/hamburger.png";
+import { logout } from "../../firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+    const navigate = useNavigate();
     const [name, setName] = useState("Dilşad Rukiye Erdoğan");
     const [email, setEmail] = useState("dilsadrukiyeerdogan@gmail.com");
     const [phone, setPhone] = useState("5071845246");
     const [isEditable, setIsEditable] = useState(false);
+
+    const handleLogout = async () => {
+        await logout();
+        navigate('/');
+    };
 
     return (
         <div className="flex flex-col items-center justify-center gap-10">
@@ -37,6 +45,8 @@ const Profile = () => {
 
                 <p className="text-sm cursor-pointer text-yellow-400 hover:underline" onClick={() => setIsEditable(!isEditable)}>Change Your Information</p>
             </div>
+
+            <button className="py-2 px-2 rounded bg-yellow-500 hover:bg-yellow-600 text-white" onClick={handleLogout}>Logout</button>
         </div>
     )
 }
