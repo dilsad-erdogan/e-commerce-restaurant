@@ -1,15 +1,28 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUser, FaSearch } from "react-icons/fa";
 import { BsBasket3Fill } from "react-icons/bs";
 import User from "../modals/User";
-
+import Profile from "../modals/Profile";
+import Login from "../modals/Login";
+import Register from "../modals/Register";
 
 const Navbar = () => {
     const location = useLocation();
     const isActive = (path) => location.pathname === path;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalType, setModalType] = useState("login");
+
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+
+        if(!user) {
+            setModalType("login");
+        } else {
+            setModalType("profile");
+        };
+    }, []);
 
     return (
         <nav className="text-white items-center mt-5">
@@ -47,7 +60,9 @@ const Navbar = () => {
                 </div>
             )}
 
-            <User isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+            <User isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
+                {isModalType==="login" ? <Login setModalType={setModalType} /> : (isModalType==="register" ? <Register setModalType={setModalType} /> : <Profile />)}
+            </User>
         </nav>
     );
 };
