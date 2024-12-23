@@ -125,7 +125,7 @@ export const fetchAllUsers = async () => {
     }
 };
 
-export const updateUser = async (userId, name, image) => {
+export const updateUser = async (userId, name, email, phone, image) => {
     try {
         const formData = new FormData();
         formData.append("image", image.file);
@@ -143,6 +143,8 @@ export const updateUser = async (userId, name, image) => {
         if (data.success) {
             const userDoc = {
                 name: name,
+                email: email,
+                phone: phone,
                 profilePicUrl: data.data.url
             };
 
