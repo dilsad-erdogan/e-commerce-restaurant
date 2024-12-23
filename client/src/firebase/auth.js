@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { collection, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import store from "../redux/store";
 import { login as loginHandle, logout as logoutHandle } from "../redux/userSlice";
+import { Timestamp } from "firebase/firestore";
 
 export const login = async (email, password) => {
     try{
@@ -29,11 +30,17 @@ export const loginWithGoogle = async () => {
                 email: user.email,
                 name: user.displayName || "Anonymous",
                 profilePicUrl: user.photoURL || "",
-                createdAt: Date.now(),
+                phone: "",
+                createdAt: Timestamp.now(),
             };
   
-            await setDoc(userDocRef, newUserDoc);
-            toast.success("New user added");
+            try {
+                await setDoc(doc(firestore, "users", user.uid), newUserDoc);
+                console.log("User successfully added to Firestore!");
+            } catch (error) {
+                console.error("Error adding user to Firestore:", error);
+            }
+            
         } else {
             console.log("Kullanıcı zaten mevcut:", userDocSnap.data());
         }
@@ -63,6 +70,23 @@ export const register = async (name, email, password) => {
         const { user } = await createUserWithEmailAndPassword(auth, email, password);
         if (user) {
             toast.success('You have successfully registered!');
+
+            // Kullanıcı bilgilerini Firestore'daki "users" koleksiyonuna ekleme
+            const userDoc = {
+                uid: user.uid,
+                email: email,
+                name: name,
+                profilePicUrl: "",
+                phone: "",
+                createdAt: Timestamp.now(),
+            };
+
+            try {
+                await setDoc(doc(firestore, "users", user.uid), userDoc);
+                console.log("User successfully added to Firestore!");
+            } catch (error) {
+                console.error("Error adding user to Firestore:", error);
+            }            
         }
         return user;
     } catch (error) {

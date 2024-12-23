@@ -10,14 +10,14 @@ const Login = ({ setModalType }) => {
     e.preventDefault();
     const user = await login(email, password);
     if(user) {
-      console.log('submit is true');
+      setModalType('profile');
     }
   };
 
   const handleGoogleSubmit = async () => {
     const user = await loginWithGoogle();
     if(user) {
-      console.log('submit is true');
+      setModalType('profile');
     }
   };
 

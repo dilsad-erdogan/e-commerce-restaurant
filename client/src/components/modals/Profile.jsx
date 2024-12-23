@@ -1,14 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Hamburger from "/hamburger.png";
 import { logout } from "../../firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { fetchUserById } from "../../firebase/auth"
 
 const Profile = () => {
     const navigate = useNavigate();
-    const [name, setName] = useState("Dilşad Rukiye Erdoğan");
-    const [email, setEmail] = useState("dilsadrukiyeerdogan@gmail.com");
-    const [phone, setPhone] = useState("5071845246");
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
     const [isEditable, setIsEditable] = useState(false);
+
+    useEffect(() => {
+        const userId = JSON.parse(localStorage.getItem('user')).uid;
+
+        const findUser = async () => {
+            const user = await fetchUserById(userId);
+            console.log(user)
+            setName(user.name)
+            setEmail(user.email)
+            setPhone(user.phone);
+        };
+
+        findUser();
+    }, []);
 
     const handleLogout = async () => {
         await logout();
@@ -29,17 +44,17 @@ const Profile = () => {
 
             <div className="flex flex-col gap-4 justify-center w-full items-center">
                 <div className="flex justify-between items-center gap-2 w-full">
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="bg-gray-700 rounded-lg border p-2 w-full" disabled={!isEditable} />
+                    <input type="text" placeholder="Enter your name..." value={name} onChange={(e) => setName(e.target.value)} className="bg-gray-700 rounded-lg border p-2 w-full" disabled={!isEditable} />
                     <button className={`py-2 px-2 rounded ${isEditable ? "bg-yellow-500 hover:bg-yellow-600 text-white" : "bg-gray-500 text-gray-300 cursor-not-allowed"}`} disabled={!isEditable}>Change</button>
                 </div>
 
                 <div className="flex justify-between items-center gap-2 w-full">
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-gray-700 rounded-lg border p-2 w-full" disabled={!isEditable} />
+                    <input type="email" placeholder="Enter your email..." value={email} onChange={(e) => setEmail(e.target.value)} className="bg-gray-700 rounded-lg border p-2 w-full" disabled={!isEditable} />
                     <button className={`py-2 px-2 rounded ${isEditable ? "bg-yellow-500 hover:bg-yellow-600 text-white" : "bg-gray-500 text-gray-300 cursor-not-allowed"}`} disabled={!isEditable}>Change</button>
                 </div>
 
                 <div className="flex justify-between items-center gap-2 w-full">
-                    <input type="number" value={phone} onChange={(e) => setPhone(e.target.value)} className="bg-gray-700 rounded-lg border p-2 w-full" disabled={!isEditable} />
+                    <input type="number" placeholder="Enter your phone..." value={phone} onChange={(e) => setPhone(e.target.value)} className="bg-gray-700 rounded-lg border p-2 w-full" disabled={!isEditable} />
                     <button className={`py-2 px-2 rounded ${isEditable ? "bg-yellow-500 hover:bg-yellow-600 text-white" : "bg-gray-500 text-gray-300 cursor-not-allowed"}`} disabled={!isEditable}>Change</button>
                 </div>
 
