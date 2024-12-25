@@ -2,7 +2,7 @@ import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from "fireb
 import { firestore } from "./firebase";
 import toast from "react-hot-toast";
 
-export const setAdmin = async (userId, productsId, address, totalPrice, deliveryStatus) => {
+export const setOrder = async (userId, productsId, address, totalPrice, deliveryStatus) => {
     try{
         const orderDoc = {
             createdBy: userId,
@@ -20,7 +20,7 @@ export const setAdmin = async (userId, productsId, address, totalPrice, delivery
     }
 };
 
-export const fetchProducts = async () => {
+export const fetchOrders = async () => {
     try {
         const onlineOrderCollection = collection(firestore, "onlineOrder");
         const querySnapshot = await getDocs(onlineOrderCollection);
