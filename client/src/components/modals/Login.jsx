@@ -1,5 +1,4 @@
 import { useState } from "react"
-import GoogleIcon from "/google.png"
 
 const Login = ({ setModalType }) => {
   const [email, setEmail] = useState('');
@@ -8,8 +7,6 @@ const Login = ({ setModalType }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   };
-
-  const handleGoogleSubmit = async () => {};
 
   return (
     <div className="p-3">
@@ -32,19 +29,6 @@ const Login = ({ setModalType }) => {
           <button type="submit" className="text-white bg-yellow-500 hover:bg-yellow-600 cursor-pointer duration-300 mt-2 py-2 px-8 rounded-full relative z-10 w-full">Login</button>
         </div>
       </form>
-
-      {/* Or */}
-      <div className="flex items-center w-full mb-5">
-        <div className="border-t border-white w-full"></div>
-        <span className="mx-4 text-gray-300">OR</span>
-        <div className="border-t border-white w-full"></div>
-      </div>
-
-      {/* Login Google */}
-      <div className="flex justify-center items-center p-4 gap-5" onClick={handleGoogleSubmit}>
-        <img src={GoogleIcon} alt="GoogleIcon" className="max-h-6" />
-        <p className="text-blue-400">Log in with Google</p>
-      </div>
 
       {/* Change Form */}
       <div className="flex gap-4 justify-center items-center p-5 border border-gray-500 rounded-lg max-w-[450px] w-full">
