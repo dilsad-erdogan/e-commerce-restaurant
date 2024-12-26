@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import Hamburger from "/hamburger.png";
-import { logout } from "../../firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { fetchUserById } from "../../firebase/auth"
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -12,21 +10,21 @@ const Profile = () => {
     const [isEditable, setIsEditable] = useState(false);
 
     useEffect(() => {
-        const userId = JSON.parse(localStorage.getItem('user')).uid;
+        //const userId = JSON.parse(localStorage.getItem('user')).uid;
 
         const findUser = async () => {
-            const user = await fetchUserById(userId);
-            console.log(user)
-            setName(user.name)
-            setEmail(user.email)
-            setPhone(user.phone);
+            // const user = await fetchUserById(userId);
+            // console.log(user)
+            // setName(user.name)
+            // setEmail(user.email)
+            // setPhone(user.phone);
         };
 
         findUser();
     }, []);
 
     const handleLogout = async () => {
-        await logout();
+        //await logout();
         navigate('/');
     };
 

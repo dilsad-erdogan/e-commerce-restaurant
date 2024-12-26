@@ -1,7 +1,15 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
-})
+    plugins: [react()],
+    server: {
+        proxy: {
+            '/imgbb': {
+                target: 'https://api.imgbb.com/1',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/imgbb/, ''),
+            },
+        },
+    },
+});

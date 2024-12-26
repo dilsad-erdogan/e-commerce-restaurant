@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { register } from "../../firebase/auth"
 
 const Register = ({ setModalType }) => {
   const [name, setName] = useState(''); 
@@ -8,8 +7,6 @@ const Register = ({ setModalType }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await register(name, email, password);
-    setModalType('login');
   };
 
   return (

@@ -1,6 +1,5 @@
 import { useState } from "react"
 import GoogleIcon from "/google.png"
-import { login, loginWithGoogle } from "../../firebase/auth";
 
 const Login = ({ setModalType }) => {
   const [email, setEmail] = useState('');
@@ -8,18 +7,9 @@ const Login = ({ setModalType }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = await login(email, password);
-    if(user) {
-      setModalType('profile');
-    }
   };
 
-  const handleGoogleSubmit = async () => {
-    const user = await loginWithGoogle();
-    if(user) {
-      setModalType('profile');
-    }
-  };
+  const handleGoogleSubmit = async () => {};
 
   return (
     <div className="p-3">
