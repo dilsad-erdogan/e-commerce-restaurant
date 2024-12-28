@@ -13,7 +13,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
-
+app.use('/categorie', require('./routes/categorie'))
+app.use('/onlineOrder', require('./routes/onlineOrder'))
+app.use('/order', require('./routes/order'))
+app.use('/product', require('./routes/product'))
+app.use('/role', require('./routes/role'))
+app.use('/table', require('./routes/table'))
+app.use('/user', require('./routes/user'))
 
 app.get('/', (req, res) => {
     res.setHeader("Access-Control-Allow-Credentials", "true");
