@@ -5,9 +5,9 @@ const { setTable, getTable, getTableById, updateName, updateNumber, updateRate, 
 router.route('/set').post(setTable)
 router.route('/get').get(getTable)
 router.route('/getById/:id').get(getTableById)
-router.route('/updateName').put(updateName)
-router.route('/updateNumber').put(updateNumber)
-router.route('/updateRate').put(updateRate)
-router.route('/delete').patch(deleteTable)
+router.route('/updateName/:id').put(updateName)
+router.route('/updateNumber/:id').put(updateNumber)
+router.route('/updateRate/:id').put(updateRate)
+router.route('/delete/:id').patch(deleteTable)
 
 module.exports = router

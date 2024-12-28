@@ -5,9 +5,9 @@ const { setCategorie, getCategorie, getCategorieById, updateName, updateDescript
 router.route('/set').post(setCategorie)
 router.route('/get').get(getCategorie)
 router.route('/getById/:id').get(getCategorieById)
-router.route('/updateName').put(updateName)
-router.route('/updateDescription').put(updateDescription)
-router.route('/updateImage').put(updateImage)
-router.route('/delete').patch(deleteCategorie)
+router.route('/updateName/:id').put(updateName)
+router.route('/updateDescription/:id').put(updateDescription)
+router.route('/updateImage/:id').put(updateImage)
+router.route('/delete/:id').patch(deleteCategorie)
 
 module.exports = router

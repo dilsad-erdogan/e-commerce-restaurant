@@ -5,7 +5,7 @@ const { setOnlineOrder, getOnlineOrder, getOnlineOrderById, updateStatus, delete
 router.route('/set').post(setOnlineOrder)
 router.route('/get').get(getOnlineOrder)
 router.route('/getById/:id').get(getOnlineOrderById)
-router.route('/updateStatus').put(updateStatus)
-router.route('/delete').patch(deleteOnlineOrder)
+router.route('/updateStatus/:id').put(updateStatus)
+router.route('/delete/:id').patch(deleteOnlineOrder)
 
 module.exports = router

@@ -5,7 +5,7 @@ const { setRole, getRole, getRoleById, updateName, deleteRole } = require('../co
 router.route('/set').post(setRole)
 router.route('/get').get(getRole)
 router.route('/getById/:id').get(getRoleById)
-router.route('/updateName').put(updateName)
-router.route('/delete').patch(deleteRole)
+router.route('/updateName/:id').put(updateName)
+router.route('/delete/:id').patch(deleteRole)
 
 module.exports = router
