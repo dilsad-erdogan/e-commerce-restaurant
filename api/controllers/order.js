@@ -76,7 +76,7 @@ async function updateTable (req, res) {
     }
 }
 
-async function updateStatus (req, res) {
+async function updateProducts (req, res) {
     try{
         const id = req.params.id;
         const { products } = req.body;
@@ -153,4 +153,4 @@ async function deleteOrder (req, res) {
     }
 }
 
-module.exports = { setOrder, getOrder, getOrderById, updateTable, updateStatus, updatePrice, deleteOrder }
+module.exports = { setOrder, getOrder, getOrderById, updateTable, updateProducts, updateStatus, updatePrice, deleteOrder }
