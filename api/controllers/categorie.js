@@ -1,4 +1,4 @@
-const Categorie = require("../models/categories");
+const Categorie = require("../models/Categorie");
 
 async function setCategorie (req, res) {
     try{

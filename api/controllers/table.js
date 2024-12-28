@@ -1,4 +1,4 @@
-const Table = require("../models/Tables");
+const Table = require("../models/Table");
 
 async function setTable (req, res) {
     try{
