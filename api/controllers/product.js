@@ -2,12 +2,13 @@ const Product = require("../models/Product");
 
 async function setProduct (req, res) {
     try{
-        const { cat_id, name, description, image } = req.body;
+        const { cat_id, name, description, price, image } = req.body;
 
         const product = new Product({
             cat_id: cat_id,
             name: name,
             description: description,
+            price: price,
             image: image,
             date_time: Date.now(),
             is_active: true
@@ -116,6 +117,26 @@ async function updateDescription (req, res) {
     }
 }
 
+async function updatePrice (req, res) {
+    try{
+        const id = req.params.id;
+        const { price } = req.body;
+
+        const product = await Product.findById(id);
+        if(!product) {
+            return res.status(404).json({ success: false, message: 'Categorie not found!' });
+        }
+
+        product.price = price;
+        product.save();
+
+        res.status(200).json({ success: true, message: 'Product updated successfully' });
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({ message: error });
+    }
+}
+
 async function updateImage (req, res) {
     try{
         const id = req.params.id;
@@ -153,4 +174,4 @@ async function deleteProduct (req, res) {
     }
 }
 
-module.exports = { setProduct, getProduct, getProductById, updateCatId, updateName, updateDescription, updateImage, deleteProduct }
+module.exports = { setProduct, getProduct, getProductById, updateCatId, updateName, updateDescription, updatePrice, updateImage, deleteProduct }
