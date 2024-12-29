@@ -6,6 +6,7 @@ import { decreaseQuantity, increaseQuantity, removeFromCart } from "../redux/car
 import { FaTrashAlt } from "react-icons/fa";
 import { useState } from "react";
 import Address from "../components/modals/Address";
+import { Toaster } from "react-hot-toast";
 
 const Basket = () => {
   const cart = useSelector(state => state.cart);
@@ -16,6 +17,8 @@ const Basket = () => {
 
   return (
     <div className="container">
+      <Toaster position="top-right" />
+      
       <Navbar />
       
       <div className="container mx-auto py-8 min-h-96 px-4 md:px-16 lg:px-24">
