@@ -12,13 +12,13 @@ const cartSlice = createSlice({
     reducers: {
         addToCart(state, action) {
             const newItem = action.payload;
-            const itemIndex = state.products.find((item) => item.id === newItem.id);
+            const itemIndex = state.products.find((item) => item._id === newItem._id);
             if(itemIndex) {
                 itemIndex.quantity++;
                 itemIndex.totalPrice += newItem.totalPrice;
             } else {
                 state.products.push({
-                    id: newItem.id,
+                    id: newItem._id,
                     name: newItem.name,
                     price: newItem.price,
                     quantity: 1,
@@ -33,17 +33,17 @@ const cartSlice = createSlice({
 
         removeFromCart(state, action) {
             const id = action.payload;
-            const findItem = state.products.find((item) => item.id === id);
+            const findItem = state.products.find((item) => item._id === id);
             if(findItem) {
                 state.totalPrice -= findItem.totalPrice;
                 state.totalQuantity -= findItem.quantity;
-                state.products = state.products.filter(item => item.id !== id);
+                state.products = state.products.filter(item => item._id !== id);
             }
         },
 
         decreaseQuantity(state, action) {
             const id = action.payload;
-            const findItem = state.products.find((item) => item.id === id);
+            const findItem = state.products.find((item) => item._id === id);
             if(findItem) {
                 if(findItem.quantity > 1){
                     findItem.quantity -= 1;
@@ -55,7 +55,7 @@ const cartSlice = createSlice({
         
         increaseQuantity(state, action) {
             const id = action.payload;
-            const findItem = state.products.find((item) => item.id === id);
+            const findItem = state.products.find((item) => item._id === id);
             if(findItem) {
                 findItem.quantity += 1;
                 state.totalPrice += findItem.price;

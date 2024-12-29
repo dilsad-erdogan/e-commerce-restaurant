@@ -1,124 +1,43 @@
 import { useEffect, useState } from "react";
-import Hamburger from "/hamburger.png"
-import Pasta from "/pasta.png"
-import Salad from "/salad.png"
 import Card from "./Card";
 import { useDispatch } from "react-redux";
 import { setProducts } from "../../redux/productSlice";
-
-const Products = [
-    {
-        id: 1,
-        title: "Hambuger",
-        datas: [
-            {
-                id: 1,
-                name: "Köfte Burger",
-                desc: "yeyeyyeyeyeyeyeyeyeyyeeyeyeyyeyeyeyeyeyeyeyyee",
-                img: Hamburger,
-                price: 10
-            },
-            {
-                id: 2,
-                name: "Tavuk Burger",
-                desc: "yeyeyyeyeyeyeyeyeyeyyeeyeyeyyeyeyeyeyeyeyeyyee",
-                img: Hamburger,
-                price: 10
-            },
-            {
-                id: 3,
-                name: "Vejeteryan Burger",
-                desc: "yeyeyyeyeyeyeyeyeyeyyeeyeyeyyeyeyeyeyeyeyeyyee",
-                img: Hamburger,
-                price: 10
-            },
-            {
-                id: 4,
-                name: "Vegan Burger",
-                desc: "yeyeyyeyeyeyeyeyeyeyyeeyeyeyyeyeyeyeyeyeyeyyee",
-                img: Hamburger,
-                price: 10
-            },
-        ]
-    },
-    {
-        id: 2,
-        title: "Pasta",
-        datas: [
-            {
-                id: 1,
-                name: "Köfte Pasta",
-                desc: "yeyeyyeyeyeyeyeyeyeyyeeyeyeyyeyeyeyeyeyeyeyyee",
-                img: Pasta,
-                price: 10
-            },
-            {
-                id: 2,
-                name: "Tavuk Pasta",
-                desc: "yeyeyyeyeyeyeyeyeyeyyeeyeyeyyeyeyeyeyeyeyeyyee",
-                img: Pasta,
-                price: 10
-            },
-            {
-                id: 3,
-                name: "Vejeteryan Pasta",
-                desc: "yeyeyyeyeyeyeyeyeyeyyeeyeyeyyeyeyeyeyeyeyeyyee",
-                img: Pasta,
-                price: 10
-            },
-            {
-                id: 4,
-                name: "Vegan Pasta",
-                desc: "yeyeyyeyeyeyeyeyeyeyyeeyeyeyyeyeyeyeyeyeyeyyee",
-                img: Pasta,
-                price: 10
-            },
-        ]
-    },
-    {
-        id: 3,
-        title: "Salad",
-        datas: [
-            {
-                id: 1,
-                name: "Köfte Salad",
-                desc: "yeyeyyeyeyeyeyeyeyeyyeeyeyeyyeyeyeyeyeyeyeyyee",
-                img: Salad,
-                price: 10
-            },
-            {
-                id: 2,
-                name: "Tavuk Salad",
-                desc: "yeyeyyeyeyeyeyeyeyeyyeeyeyeyyeyeyeyeyeyeyeyyee",
-                img: Salad,
-                price: 10
-            },
-            {
-                id: 3,
-                name: "Vejeteryan Salad",
-                desc: "yeyeyyeyeyeyeyeyeyeyyeeyeyeyyeyeyeyeyeyeyeyyee",
-                img: Salad,
-                price: 10
-            },
-            {
-                id: 4,
-                name: "Vegan Salad",
-                desc: "yeyeyyeyeyeyeyeyeyeyyeeyeyeyyeyeyeyeyeyeyeyyee",
-                img: Salad,
-                price: 10
-            },
-        ]
-    }
-];
+import categorieServices from "../../services/categorie";
+import productServices from "../../services/product";
 
 const Featured = () => {
     const dispatch = useDispatch();
     const [selected, setSelected] = useState('All');
+    const [categories, setCategories] = useState([]);
+    const [product, setProduct] = useState([]);
     // Filtrelenmiş ürünler
-    const filteredProducts = selected === 'All' ? Products : Products.filter(product => product.title === selected);
+    const filteredProducts = selected === 'All' ? product : product.filter(data => data.cat_id === selected);
 
     useEffect(() => {
-        dispatch(setProducts(Products));
+        dispatch(setProducts(product));
+    }, []);
+
+    useEffect(() => {
+        const fetchCat = async () => {
+            try {
+                const datas = await categorieServices.get();
+                setCategories(datas.data || []);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+        }
+
+        const fetchPro = async () => {
+            try{
+                const datas = await productServices.get();
+                setProduct(datas.data || []);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        }
+
+        fetchCat()
+        fetchPro();
     }, []);
 
     return (
@@ -129,23 +48,27 @@ const Featured = () => {
             {/* Options */}
             <div className="flex justify-center w-full gap-6 mt-5">
                 <div className={`px-6 py-2 text-sm font-semibold text-white ${selected === "All" ? "bg-yellow-600" : "hover:bg-yellow-500"} rounded-xl duration-200`} onClick={() => { setSelected("All") }}>All</div>
-                {Products.map((product) => (
-                    <div key={product.id}>
-                        <div className={`px-6 py-2 text-sm font-semibold text-white ${selected === product.title ? "bg-yellow-600" : "hover:bg-yellow-500"} rounded-xl duration-200`} onClick={() => { setSelected(product.title) }}>{product.title}</div>
-                    </div>
-                ))}
+                {categories.length > 0 ? (
+                    categories.map((categorie) => (
+                        <div key={categorie._id}>
+                            <div className={`px-6 py-2 text-sm font-semibold text-white ${selected === categorie.name ? "bg-yellow-600" : "hover:bg-yellow-500"} rounded-xl duration-200`} onClick={() => { setSelected(categorie._id) }}>{categorie.name}</div>
+                        </div>
+                    ))
+                ) : (<p>Loading...</p>)}
             </div>
 
             {/* Products */}
             <div className="container flex justify-center mt-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 cursor-pointer justify-center items-center">
-                    {filteredProducts.map((product) => (
-                        product.datas.map(data => (
-                            <div key={`${product.id}.${data.id}`}>
-                                <Card data={data} />
+                    {filteredProducts.length > 0 ? (
+                        filteredProducts.map((product) => (
+                            <div key={`${product._id}`}>
+                                <Card data={product} />
                             </div>
                         ))
-                    ))}
+                    ) : (
+                        <p className="text-white text-2xl">No products found for the selected category.</p>
+                    )}
                 </div>
             </div>
         </div>

@@ -43,9 +43,9 @@ const Basket = () => {
                 {/* Table data */}
                 <div>
                   {cart.products.map((product) => (
-                    <div key={product.id} className="flex text-white items-center justify-between p-3 border-b">
+                    <div key={product._id} className="flex text-white items-center justify-between p-3 border-b">
                       <div className="md:flex items-center space-x-4">
-                        <img src={product.img} alt={product.name} className="w-16 h-16 object-contain rounded" />
+                        <img src={product.image} alt={product.name} className="w-16 h-16 object-contain rounded" />
 
                         <div className="flex-1 ml-4">
                           <h3 className="text-lg font-semibold">{product.name}</h3>
@@ -56,14 +56,14 @@ const Basket = () => {
                         <p>${product.price}</p>
 
                         <div className="flex items-center justify-center border">
-                          <button className="text-xl font-bold px-1.5 border-r" onClick={() => dispatch(decreaseQuantity(product.id))}>-</button>
+                          <button className="text-xl font-bold px-1.5 border-r" onClick={() => dispatch(decreaseQuantity(product._id))}>-</button>
                           <p className="text-xl px-2">{product.quantity}</p>
-                          <button className="text-xl px-1 border-l" onClick={() => dispatch(increaseQuantity(product.id))}>+</button>
+                          <button className="text-xl px-1 border-l" onClick={() => dispatch(increaseQuantity(product._id))}>+</button>
                         </div>
 
                         <p>${(product.quantity * product.price).toFixed(2)}</p>
 
-                        <button className="text-yellow-500 hover:text-yellow-600" onClick={() => dispatch(removeFromCart(product.id))}>
+                        <button className="text-yellow-500 hover:text-yellow-600" onClick={() => dispatch(removeFromCart(product._id))}>
                           <FaTrashAlt />
                         </button>
                       </div>

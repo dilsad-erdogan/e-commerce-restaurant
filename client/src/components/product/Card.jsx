@@ -17,13 +17,13 @@ const Card = ({ data }) => {
     <div className="bg-gray-300 rounded-2xl shadow-lg overflow-hidden w-64">
       {/* Ürün Görseli */}
       <div className="flex justify-center my-4">
-        <img src={data.img} alt={data.name} className="w-24 h-24 object-cover" />
+        <img src={data.image} alt={data.name} className="w-24 h-24 object-cover" />
       </div>
   
       {/* Ürün İçeriği */}
       <div className="bg-gray-900 rounded-s-2xl text-white p-4 rounded-b-2xl">
         <h2 className="text-lg font-semibold mb-2">{data.name}</h2>
-        <p className="text-sm mb-4 break-words">{data.desc}</p>
+        <p className="text-sm mb-4 break-words">{data.description}</p>
   
         {/* Fiyat ve Sepet */}
         <div className="flex justify-between items-center">
