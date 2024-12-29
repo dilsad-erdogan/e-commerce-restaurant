@@ -10,7 +10,6 @@ const Main = () => {
 
       <Navbar />
       <Hero />
-      <Featured />
     </div>
   )
 }
