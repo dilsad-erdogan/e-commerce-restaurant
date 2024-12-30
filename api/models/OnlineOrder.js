@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
-const Product = require('./Product');
 
 const onlineOrderSchema = new mongoose.Schema({
     user_id: { type: String, required: true },
-    products: [ Product.schema ],
+    products: [
+        {
+            product: { type: mongoose.Schema.Types.ObjectId, ref: 'Products', required: true },
+            quantity: { type: Number, required: true }
+        }
+    ],
     address: { type: String, required: true },
     totalPrice: { type: Number, required: true },
     deliveryStatus: { type: Boolean, required: true },
