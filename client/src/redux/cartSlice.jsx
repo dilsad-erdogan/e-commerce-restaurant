@@ -18,7 +18,7 @@ const cartSlice = createSlice({
                 itemIndex.totalPrice += newItem.totalPrice;
             } else {
                 state.products.push({
-                    id: newItem._id,
+                    _id: newItem._id,
                     name: newItem.name,
                     price: newItem.price,
                     quantity: 1,
@@ -61,9 +61,15 @@ const cartSlice = createSlice({
                 state.totalPrice += findItem.price;
                 state.totalQuantity += 1;
             }
+        },
+
+        dropCart(state) {
+            state.products = []
+            state.totalPrice = 0
+            state.totalQuantity = 0
         }
     },
 })
 
-export const { addToCart, removeFromCart, increaseQuantity, decreaseQuantity } = cartSlice.actions
+export const { addToCart, removeFromCart, increaseQuantity, decreaseQuantity, dropCart } = cartSlice.actions
 export default cartSlice.reducer

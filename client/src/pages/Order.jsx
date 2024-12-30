@@ -1,13 +1,15 @@
 import Navbar from "../components/navbar/Navbar"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { FaAngleDown, FaAngleUp } from "react-icons/fa"
 import { PiEmptyBold } from "react-icons/pi"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Toaster } from "react-hot-toast"
 import toast from "react-hot-toast"
+import onlineOrderServices from "../services/onlineOrder"
+import { useNavigate } from "react-router-dom"
+import { dropCart } from "../redux/cartSlice"
 
 const Order = () => {
-  const [billingToggle, setBillingToggle] = useState(true);
   const [shippingToggle, setShippingToggle] = useState(true);
   const [paymentToggle, setPaymentToggle] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState("cod");
@@ -17,9 +19,35 @@ const Order = () => {
     zip: ''
   });
   const cart = useSelector(state => state.cart);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [id, setId] = useState('')
 
-  const handleOrder = () => {
-    toast.success('Your order has been received!')
+  useEffect(() => {
+    const id = JSON.parse(localStorage.getItem('user')).uid;
+    setId(id);
+  }, [])
+
+  const handleOrder = async () => {
+    try{
+      const order = {
+        user_id: id,
+        products: cart.products.map((product) => ({
+          product: product._id,
+          quantity: product.quantity
+        })),
+        address: `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.zip}`,
+        totalPrice: cart.totalPrice,
+        deliveryStatus: false
+      }
+  
+      await onlineOrderServices.add(order);
+      toast.success('Your order has been received!')
+      navigate('/')
+      dispatch(dropCart())
+    } catch (error) {
+      toast.error(error.message)
+    }
   };
 
   return (
@@ -28,7 +56,7 @@ const Order = () => {
 
       <Navbar />
 
-      <div className="container text-white text-end mx-auto py-8 min-h-96 px-4 md:px-16 lg:px-24">
+      <div className="container text-white mx-auto py-8 min-h-96 px-4 md:px-16 lg:px-24">
         {cart.products.length > 0 ?
           // If cart is full
           <div className="mt-10">
@@ -36,34 +64,6 @@ const Order = () => {
 
             <div className="flex flex-col md:flex-row justify-between space-x-10 mt-8">
               <div className="md:w-2/3">
-                <div className="border p-2 mb-6 space-y-4">
-                  <div className="flex items-center justify-between" onClick={() => setBillingToggle(!billingToggle)}>
-                    <h3 className="text-lg font-semibold mb-2">Billing Information</h3>
-                    {billingToggle ? <FaAngleDown /> : <FaAngleUp />}
-                  </div>
-
-                  <div className={`space-y-4 ${billingToggle ? "" : "hidden"}`}>
-                    <div>
-                      <label className="block">Name</label>
-                      <input type="text" name="name" placeholder="Enter Name" className="w-full px-3 py-2 border bg-gray-800" />
-                    </div>
-                  </div>
-
-                  <div className={`space-y-4 ${billingToggle ? "" : "hidden"}`}>
-                    <div>
-                      <label className="block">Email</label>
-                      <input type="email" name="email" placeholder="Enter Email" className="w-full px-3 py-2 border bg-gray-800" />
-                    </div>
-                  </div>
-
-                  <div className={`space-y-4 ${billingToggle ? "" : "hidden"}`}>
-                    <div>
-                      <label className="block">Phone</label>
-                      <input type="text" name="phone" placeholder="Enter Phone #" className="w-full px-3 py-2 border bg-gray-800" />
-                    </div>
-                  </div>
-                </div>
-
                 <div className="border p-2 mb-6 space-y-4">
                   <div className="flex items-center justify-between" onClick={() => setShippingToggle(!shippingToggle)}>
                     <h3 className="text-lg font-semibold mb-2">Shipping Information</h3>
@@ -147,7 +147,7 @@ const Order = () => {
 
                 <div className="space-y-4">
                   {cart.products.map(product => (
-                    <div key={product.id} className="flex justify-between">
+                    <div key={product._id} className="flex justify-between">
                       <div className="flex items-center">
                         <img src={product.image} alt={product.name} className="w-16 object-contain rounded" />
 
@@ -157,7 +157,7 @@ const Order = () => {
                         </div>
                       </div>
 
-                      <div className="text-gray-800">
+                      <div className="text-white flex items-center">
                         ${product.price * product.quantity}
                       </div>
                     </div>
@@ -169,10 +169,10 @@ const Order = () => {
                     <span>Total Price:</span>
                     <span className="font-semibold">${cart.totalPrice.toFixed(2)}</span>
                     </div>
-                  </div>
+                </div>
 
                   <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 mt-6" onClick={handleOrder}>Place Order</button>
-                </div>
+              </div>
             </div>
           </div>
           :

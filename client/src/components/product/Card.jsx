@@ -9,8 +9,13 @@ const Card = ({ data }) => {
   const handleAddToCard = (e, product) => {
     e.stopPropagation()
     e.preventDefault()
-    dispatch(addToCart(product))
-    toast.success("Product added succesfully!")
+    const user = localStorage.getItem('user');
+    if(user){
+      dispatch(addToCart(product))
+      toast.success("Product added succesfully!")
+    } else {
+      toast.error('Please, login first.')
+    }
   }
 
   return (
