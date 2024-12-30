@@ -9,6 +9,7 @@ async function setReservation (req, res) {
             phone: phone,
             email: email,
             numberOfPeople: numberOfPeople,
+            dateTime: dateTime,
             confirmationStatus: false,
             is_active: true
         });
