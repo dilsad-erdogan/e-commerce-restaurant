@@ -1,9 +1,11 @@
 import Slider from "react-slick";
 import { useEffect, useState } from "react";
 import categorieServices from "../../services/categorie";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
     const [categories, setCategories] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCat = async () => {
@@ -43,7 +45,7 @@ const Hero = () => {
                                         <div className="flex flex-col justify-center gap-4 pl-10 pt-12 p-5 sm:pt-0 text-center sm:text-left order-2 sm:order-1 relative z-10">
                                             <h1 className="text-3xl sm:text-6xl lg:text-7xl font-bold text-white text-end" style={{ fontFamily: "'Lucida Handwriting', cursive" }}>{data.name}</h1>
                                             <p className="text-sm sm:text-lg lg:text-xl font-bold text-white break-words max-w-xs sm:max-w-md lg:max-w-lg">{data.description}</p>
-                                            <button className="inline-block px-6 py-2 max-w-[200px] font-semibold text-white bg-yellow-500 hover:bg-yellow-600 rounded-xl duration-200">Order</button>
+                                            <button className="inline-block px-6 py-2 max-w-[200px] font-semibold text-white bg-yellow-500 hover:bg-yellow-600 rounded-xl duration-200" onClick={() => {navigate('/menu')}}>See all products</button>
                                         </div>
 
                                         {/* Image section */}
