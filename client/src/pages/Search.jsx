@@ -1,43 +1,37 @@
-import { useState } from 'react';
+import { useSelector } from 'react-redux'
 import Navbar from '../components/navbar/Navbar'
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast'
+import { PiEmptyBold } from "react-icons/pi"
+import Card from '../components/product/Card'
 
 const Search = () => {
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-  const [price, setPrice] = useState("");
-  const [cat, setCat] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-        const file = e.target.files[0];
-        const previewUrl = URL.createObjectURL(file);
-        setSelectedImage({ previewUrl, file });
-    }
-  };
-
-  const handlePost = async () => {
-    if (!selectedImage) {
-        toast.error("Please select an image");
-        return;
-    }
-
-    //await setProducts(name, desc, price, cat, selectedImage);
-  };
+  const filterProducts = useSelector(state => state.product.filteredData);
 
   return (
     <div className="container">
       <Toaster position="top-right" />
-        <Navbar />
+      <Navbar />
 
-        <input type="text" placeholder='name' value={name} onChange={(e) => setName(e.target.value)} />
-        <input type="text" placeholder='description' value={desc} onChange={(e) => setDesc(e.target.value)} />
-        <input type="text" placeholder='price' value={price} onChange={(e) => setPrice(e.target.value)} />
-        <input type="text" placeholder='categorie' value={cat} onChange={(e) => setCat(e.target.value)} />
-        <input type="file" onChange={handleImageChange} />
+      <div className="mx-auto py-12 px-4 md:px-16 lg:px-24">
+        {filterProducts.length > 0 ? (
+          <div>
+            <h2 className="text-2xl font-bold mb-6 text-white" style={{ fontFamily: "'Lucida Handwriting', cursive" }}>Shop</h2>
 
-        <button onClick={handlePost}>Post</button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 cursor-pointer">
+              {filterProducts.map(((product) => (
+                <div key={product._id}>
+                  <Card data={product} />
+                </div>
+              )))}
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col justify-center items-center text-center gap-3 mb-4">
+            <PiEmptyBold className="h-96 w-96 text-red-500" />
+            <h4 className="text-xl font-semibold text-red-500">No product found</h4>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

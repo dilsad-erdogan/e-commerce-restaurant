@@ -15,7 +15,7 @@ const Featured = () => {
 
     useEffect(() => {
         dispatch(setProducts(product));
-    }, []);
+    }, [product]);
 
     useEffect(() => {
         const fetchCat = async () => {
