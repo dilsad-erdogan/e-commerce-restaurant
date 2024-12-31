@@ -1,4 +1,6 @@
 import { useState } from "react"
+import userServices from "../../services/user";
+import toast from "react-hot-toast";
 
 const Register = ({ setModalType }) => {
   const [name, setName] = useState(''); 
@@ -7,6 +9,26 @@ const Register = ({ setModalType }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const data = {
+      role: "676ff501899b29c34cd3beb5",
+      name: name,
+      email: email,
+      password: password,
+    }
+
+    try {
+      const response = await userServices.register(data);
+  
+      if (response.success) {
+        toast.success('Your admin!')
+        setModalType('login')
+      } else {
+        console.error("Register failed:", response.message);
+      }
+    } catch (error) {
+      console.error("An error occurred:", error.message);
+    }
   };
 
   return (

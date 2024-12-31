@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import Hamburger from "/hamburger.png";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
-const Profile = () => {
+const Profile = ({ setModalType }) => {
     const navigate = useNavigate();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -10,13 +11,11 @@ const Profile = () => {
     const [isEditable, setIsEditable] = useState(false);
 
     useEffect(() => {
-        //const userId = JSON.parse(localStorage.getItem('user')).uid;
+        const user = JSON.parse(localStorage.getItem('user'));
 
         const findUser = async () => {
-            // const user = await fetchUserById(userId);
-            // console.log(user)
-            // setName(user.name)
-            // setEmail(user.email)
+            setName(user.name)
+            setEmail(user.email)
             // setPhone(user.phone);
         };
 
@@ -24,7 +23,9 @@ const Profile = () => {
     }, []);
 
     const handleLogout = async () => {
-        //await logout();
+        localStorage.clear()
+        setModalType('login')
+        toast.success('Your debut was successful!')
         navigate('/');
     };
 

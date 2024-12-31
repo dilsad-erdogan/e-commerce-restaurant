@@ -1,12 +1,43 @@
 import { useState } from "react"
+import userServices from "../../services/user"
+import { useNavigate } from "react-router-dom"
+import toast from "react-hot-toast";
 
 const Login = ({ setModalType }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  };
+  
+    const data = {
+      email: email,
+      password: password,
+    };
+  
+    try {
+      const response = await userServices.login(data);
+  
+      if (response.success) {
+        localStorage.setItem('user', JSON.stringify(response.user))
+
+        if(response.user.role === "676ff4e2899b29c34cd3beb3"){
+          toast.success('Your admin!')
+          setModalType('profile')
+          navigate('/admin')
+        }else {
+          toast.success('Login completed!')
+          setModalType('profile')
+          navigate('/')
+        }
+      } else {
+        console.error("Login failed:", response.message);
+      }
+    } catch (error) {
+      console.error("An error occurred:", error.message);
+    }
+  };  
 
   return (
     <div className="p-3">

@@ -82,7 +82,7 @@ const Navbar = () => {
             )}
 
             <User isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
-                {isModalType==="login" ? <Login setModalType={setModalType} /> : (isModalType==="register" ? <Register setModalType={setModalType} /> : <Profile />)}
+                {isModalType==="login" ? <Login setModalType={setModalType} /> : (isModalType==="register" ? <Register setModalType={setModalType} /> : <Profile setModalType={setModalType} />)}
             </User>
         </nav>
     );
