@@ -27,6 +27,20 @@ async function setOrder (req, res) {
 
 async function getOrder (req, res) {
     try{
+        const order = await Order.find();
+        if(order) {
+            res.status(200).json({ success: true, data: order })
+        } else {
+            res.status(404).json({ success: false, message: 'Order not found!' });
+        }
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error!' });
+    }
+}
+
+async function getActiveOrder (req, res) {
+    try{
         const order = await Order.find({ is_active: true });
 
         if(order) {
@@ -153,4 +167,4 @@ async function deleteOrder (req, res) {
     }
 }
 
-module.exports = { setOrder, getOrder, getOrderById, updateTable, updateProducts, updateStatus, updatePrice, deleteOrder }
+module.exports = { setOrder, getOrder, getActiveOrder, getOrderById, updateTable, updateProducts, updateStatus, updatePrice, deleteOrder }

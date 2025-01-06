@@ -28,6 +28,21 @@ async function setOnlineOrder (req, res) {
 
 async function getOnlineOrder (req, res) {
     try{
+        const order = await OnlineOrder.find();
+
+        if(order) {
+            res.status(200).json({ success: true, data: order })
+        } else {
+            res.status(404).json({ success: false, message: 'OnlineOrder not found!' });
+        }
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error!' });
+    }
+}
+
+async function getActiveOnlineOrder (req, res) {
+    try{
         const order = await OnlineOrder.find({ is_active: true });
 
         if(order) {
@@ -94,4 +109,4 @@ async function deleteOnlineOrder (req, res) {
     }
 }
 
-module.exports = { setOnlineOrder, getOnlineOrder, getOnlineOrderById, updateStatus, deleteOnlineOrder }
+module.exports = { setOnlineOrder, getOnlineOrder, getActiveOnlineOrder, getOnlineOrderById, updateStatus, deleteOnlineOrder }

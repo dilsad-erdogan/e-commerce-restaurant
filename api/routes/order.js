@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { setOrder, getOrder, getOrderById, updateTable, updateProducts, updateStatus, updatePrice, deleteOrder } = require('../controllers/order');
+const { setOrder, getOrder, getActiveOrder, getOrderById, updateTable, updateProducts, updateStatus, updatePrice, deleteOrder } = require('../controllers/order');
 
 router.route('/set').post(setOrder)
 router.route('/get').get(getOrder)
+router.route('/getActive').get(getActiveOrder)
 router.route('/getById/:id').get(getOrderById)
 router.route('/updateTable/:id').put(updateTable)
 router.route('/updateProducts/:id').put(updateProducts)
