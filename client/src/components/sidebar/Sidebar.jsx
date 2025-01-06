@@ -75,7 +75,7 @@ const Sidebar = () => {
                         {item.list.map((data) => (
                             <div key={data.title} onClick={() => handleClick(data.path)} className={`${'text-lg p-3 flex items-center gap-2 m-1 rounded-xl'} ${pathname === data.path && 'font-bold text-xl'}`}>
                                 {data.icon}
-                                {data.title}
+                                <div className="hidden md:flex">{data.title}</div>
                             </div>
                         ))}
                     </li>
