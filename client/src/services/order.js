@@ -21,6 +21,16 @@ const get = async () => {
     }
 }
 
+const getActive = async () => {
+    try{
+        const response = await axios.get(`${ORDER}/getActive`);
+        return response.data;
+    } catch (error){
+        console.error('Error fetching order:', error);
+        throw error;
+    }
+}
+
 const byId = async (id) => {
     try{
         const response = await axios.get(`${ORDER}/getById/${id}`);
@@ -84,6 +94,7 @@ const deleted = async (id) => {
 const orderServices = {
     add,
     get,
+    getActive,
     byId,
     updateTable,
     updateProducts,

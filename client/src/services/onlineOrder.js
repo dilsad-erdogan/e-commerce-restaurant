@@ -21,6 +21,16 @@ const get = async () => {
     }
 }
 
+const getActive = async () => {
+    try{
+        const response = await axios.get(`${ONLINEORDER}/getActive`);
+        return response.data;
+    } catch (error){
+        console.error('Error fetching online order:', error);
+        throw error;
+    }
+}
+
 const byId = async (id) => {
     try{
         const response = await axios.get(`${ONLINEORDER}/getById/${id}`);
@@ -54,6 +64,7 @@ const deleted = async (id) => {
 const onlineOrderServices = {
     add,
     get,
+    getActive,
     byId,
     updateStatus,
     deleted
