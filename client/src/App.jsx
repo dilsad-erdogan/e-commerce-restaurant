@@ -6,6 +6,12 @@ import Basket from "./pages/Basket"
 import Order from "./pages/Order"
 import Search from "./pages/Search"
 import AdminMain from "./pages/AdminMain"
+import Categorie from "./pages/Tables/Categorie"
+import Product from "./pages/Tables/Product"
+import Role from "./pages/Tables/Role"
+import User from "./pages/Tables/User"
+import Table from "./pages/Tables/Table"
+import TableManagement from "./pages/TableManagement"
 
 function App() {
   return (
@@ -20,6 +26,12 @@ function App() {
           <Route path="/order" element={<Order />} />
 
           <Route path="/admin" element={<AdminMain />} />
+          <Route path="/categorie" element={<Categorie />} />
+          <Route path="/product" element={<Product />} />
+          <Route path="/role" element={<Role />} />
+          <Route path="/user" element={<User />} />
+          <Route path="/table" element={<Table />} />
+          <Route path="/table-management" element={<TableManagement />} />
         </Routes>
       </BrowserRouter>
     </div>
