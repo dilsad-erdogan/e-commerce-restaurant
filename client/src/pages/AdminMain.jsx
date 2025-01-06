@@ -7,6 +7,7 @@ import productServices from "../services/product"
 import tableServices from "../services/table"
 import onlineOrderServices from "../services/onlineOrder"
 import orderServices from "../services/order"
+import { BiCategoryAlt } from "react-icons/bi"
 
 const AdminMain = () => {
   const [catLength, setCatLength] = useState('')
@@ -82,19 +83,80 @@ const AdminMain = () => {
       <div className="flex container">
         <Sidebar />
 
-        <div className="text-white">
-          Cat Length: {catLength} <br />
-          Product Length: {proLength} <br />
-          Table Length: {tableLength} <br />
-          <br /><br />
-          Active Order Online Length: {activeOnline} <br />
-          Active Order Table Length: {activeTable} <br />
-          <br /><br />
-          Total Order Online Length: {totalOnline} <br />
-          Total Order Table Length: {totalTable} <br />
-          <br /><br />
-          Total Price Month: 25.542 <br />
-          Total Price Day: 5.938 <br />
+        <div className="p-5 m-5">
+          <div className="text-white grid grid-cols-1 lg:grid-cols-3 gap-5">
+            <div className="p-5 m-1 flex justify-between items-center bg-yellow-500 rounded-xl min-w-[200px] w-[300px] h-[100px]">
+              <BiCategoryAlt className="text-4xl font-bold" />
+              <div>
+                <h2 className="text-xl font-bold">Categorie Length</h2>
+                <p className="text-sm">{catLength}</p>
+              </div>
+            </div>
+
+            <div className="p-5 m-1 flex justify-between items-center bg-yellow-500 rounded-xl min-w-[200px] w-[300px] h-[100px]">
+              <BiCategoryAlt className="text-4xl font-bold" />
+              <div>
+                <h2 className="text-xl font-bold">Product Length</h2>
+                <p className="text-sm">{proLength}</p>
+              </div>
+            </div>
+
+            <div className="p-5 m-1 flex justify-between items-center bg-yellow-500 rounded-xl min-w-[200px] w-[300px] h-[100px]">
+              <BiCategoryAlt className="text-4xl font-bold" />
+              <div>
+                <h2 className="text-xl font-bold">Table Length</h2>
+                <p className="text-sm">{tableLength}</p>
+              </div>
+            </div>
+
+            <div className="p-5 m-1 flex justify-between items-center bg-yellow-500 rounded-xl min-w-[200px] w-[300px] h-[100px]">
+              <BiCategoryAlt className="text-4xl font-bold" />
+              <div>
+                <h2 className="text-xl font-bold">Active Online Order</h2>
+                <p className="text-sm">{activeOnline}</p>
+              </div>
+            </div>
+
+            <div className="p-5 m-1 flex justify-between items-center bg-yellow-500 rounded-xl min-w-[200px] w-[300px] h-[100px]">
+              <BiCategoryAlt className="text-4xl font-bold" />
+              <div>
+                <h2 className="text-xl font-bold">Active Order</h2>
+                <p className="text-sm">{activeTable}</p>
+              </div>
+            </div>
+
+            <div className="p-5 m-1 flex justify-between items-center bg-yellow-500 rounded-xl min-w-[200px] w-[300px] h-[100px]">
+              <BiCategoryAlt className="text-4xl font-bold" />
+              <div>
+                <h2 className="text-xl font-bold">Total Online Order</h2>
+                <p className="text-sm">{totalOnline}</p>
+              </div>
+            </div>
+
+            <div className="p-5 m-1 flex justify-between items-center bg-yellow-500 rounded-xl min-w-[200px] w-[300px] h-[100px]">
+              <BiCategoryAlt className="text-4xl font-bold" />
+              <div>
+                <h2 className="text-xl font-bold">Total Order</h2>
+                <p className="text-sm">{totalTable}</p>
+              </div>
+            </div>
+
+            <div className="p-5 m-1 flex justify-between items-center bg-yellow-500 rounded-xl min-w-[200px] w-[300px] h-[100px]">
+              <BiCategoryAlt className="text-4xl font-bold" />
+              <div>
+                <h2 className="text-xl font-bold">Total Price (Month)</h2>
+                <p className="text-sm">25.542</p>
+              </div>
+            </div>
+
+            <div className="p-5 m-1 flex justify-between items-center bg-yellow-500 rounded-xl min-w-[200px] w-[300px] h-[100px]">
+              <BiCategoryAlt className="text-4xl font-bold" />
+              <div>
+                <h2 className="text-xl font-bold">Total Price (Day)</h2>
+                <p className="text-sm">5.938</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
