@@ -12,6 +12,7 @@ import Role from "./pages/Tables/Role"
 import User from "./pages/Tables/User"
 import Table from "./pages/Tables/Table"
 import TableManagement from "./pages/TableManagement"
+import TableOrder from "./pages/TableOrder"
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/user" element={<User />} />
           <Route path="/table" element={<Table />} />
           <Route path="/table-management" element={<TableManagement />} />
+          <Route path="/tables/:tableId" element={<TableOrder />} />
         </Routes>
       </BrowserRouter>
     </div>
