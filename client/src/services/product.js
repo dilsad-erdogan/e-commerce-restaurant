@@ -31,9 +31,9 @@ const byId = async (id) => {
     }
 }
 
-const updateCatId = async (id, data) => {
+const updateCatId = async (id, cat_id) => {
     try{
-        const response = await axios.put(`${PRODUCT}/updateCatId/${id}`, data);
+        const response = await axios.put(`${PRODUCT}/updateCatId/${id}`, cat_id);
         return response.data;
     } catch (error){
         console.error('Error updating product time:', error);
@@ -41,9 +41,9 @@ const updateCatId = async (id, data) => {
     }
 }
 
-const updateName = async (id, data) => {
+const updateName = async (id, name) => {
     try{
-        const response = await axios.put(`${PRODUCT}/updateName/${id}`, data);
+        const response = await axios.put(`${PRODUCT}/updateName/${id}`, name);
         return response.data;
     } catch (error){
         console.error('Error updating product time:', error);
@@ -51,9 +51,9 @@ const updateName = async (id, data) => {
     }
 }
 
-const updateDescription = async (id, data) => {
+const updateDescription = async (id, description) => {
     try{
-        const response = await axios.put(`${PRODUCT}/updateDescription/${id}`, data);
+        const response = await axios.put(`${PRODUCT}/updateDescription/${id}`, description);
         return response.data;
     } catch (error){
         console.error('Error updating product time:', error);
@@ -61,9 +61,9 @@ const updateDescription = async (id, data) => {
     }
 }
 
-const updatePrice = async (id, data) => {
+const updatePrice = async (id, price) => {
     try{
-        const response = await axios.put(`${PRODUCT}/updatePrice/${id}`, data);
+        const response = await axios.put(`${PRODUCT}/updatePrice/${id}`, price);
         return response.data;
     } catch (error){
         console.error('Error updating product time:', error);
@@ -71,9 +71,9 @@ const updatePrice = async (id, data) => {
     }
 }
 
-const updateImage = async (id, data) => {
+const updateImage = async (id, image) => {
     try{
-        const response = await axios.put(`${PRODUCT}/updateImage/${id}`, data);
+        const response = await axios.put(`${PRODUCT}/updateImage/${id}`, image);
         return response.data;
     } catch (error){
         console.error('Error updating product time:', error);

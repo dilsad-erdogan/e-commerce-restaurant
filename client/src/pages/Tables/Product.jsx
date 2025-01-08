@@ -3,9 +3,12 @@ import AdminNavbar from "../../components/navbar/AdminNavbar"
 import Sidebar from "../../components/sidebar/Sidebar"
 import { useEffect, useState } from "react"
 import productServices from "../../services/product"
+import ProductModal from "../../components/modals/Edits/Product"
 
 const Product = () => {
   const [product, setProduct] = useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [data, setData] = useState({})
 
   useEffect(() => {
     fetchProduct();
@@ -29,6 +32,16 @@ const Product = () => {
     }
   }
 
+  const handleEdit = (data) => {
+    setData(data)
+    setIsModalOpen(true)
+  }
+
+  const handleModalClose = () => {
+    setIsModalOpen(false)
+    fetchProduct()
+  }
+
   return (
     <div className="container">
       <Toaster position="top-right" />
@@ -47,6 +60,7 @@ const Product = () => {
                   <th scope="col" className="px-6 py-3">Categorie Id</th>
                   <th scope="col" className="px-6 py-3">Name</th>
                   <th scope="col" className="px-6 py-3">Description</th>
+                  <th scope="col" className="px-6 py-3">Price</th>
                   <th scope="col" className="px-6 py-3">Image</th>
                   <th scope="col" className="px-6 py-3">Action</th>
                 </tr>
@@ -58,12 +72,13 @@ const Product = () => {
                     <th className="px-6 py-4 font-medium whitespace-nowrap text-white">{data.cat_id}</th>
                     <th className="px-6 py-4 font-medium whitespace-nowrap text-white">{data.name}</th>
                     <td className="px-6 py-4">{data.description}</td>
+                    <td className="px-6 py-4">{data.price}</td>
                     <td className="p-2">
                       <img src={data.image} alt={data.name} className="w-16 h-16 rounded-full" />
                     </td>
                     <td className="px-6 py-4 flex gap-4 items-center">
                       <a href="#" className="font-medium text-red-500 hover:underline" onClick={() => handleDelete(data._id)}>Delete</a>
-                      <a href="#" className="font-medium text-blue-500 hover:underline">Edit</a>
+                      <a href="#" className="font-medium text-blue-500 hover:underline" onClick={() => handleEdit(data)}>Edit</a>
                     </td>
                   </tr>
                 ))}
@@ -72,6 +87,8 @@ const Product = () => {
           </div>
         </div>
       </div>
+
+      <ProductModal isModalOpen={isModalOpen} setIsModalOpen={handleModalClose} data={data} />
     </div>
   )
 }
