@@ -1,4 +1,4 @@
-import { Toaster } from "react-hot-toast"
+import toast, { Toaster } from "react-hot-toast"
 import AdminNavbar from "../../components/navbar/AdminNavbar"
 import Sidebar from "../../components/sidebar/Sidebar"
 import { useEffect, useState } from "react"
@@ -8,17 +8,26 @@ const Table = () => {
   const [table, setTable] = useState([])
 
   useEffect(() => {
-    const fetchCat = async () => {
-      try{
-        const data = await tableServices.get()
-        setTable(data.data)
-      } catch(error) {
-        console.error("Error fetching table: ", error)
-      }
-    }
-
-    fetchCat();
+    fetchTable();
   }, [])
+
+  const fetchTable = async () => {
+    try{
+      const data = await tableServices.get()
+      setTable(data.data)
+    } catch(error) {
+      toast.error("Error fetching table: ", error)
+    }
+  }
+
+  const handleDelete = async (id) => {
+    try{
+      await tableServices.deleted(id)
+      fetchTable()
+    } catch(error) {
+      toast.error("Error deleted table: ", error)
+    }
+  }
 
   return (
     <div className="container">
@@ -49,7 +58,7 @@ const Table = () => {
                     <td className="px-6 py-4">{data.numberOfPeople}</td>
                     <td className="px-6 py-4">{data.occupancyRate ? "True" : "False"}</td>
                     <td className="px-6 py-4 flex gap-4 items-center">
-                      <a href="#" className="font-medium text-red-500 hover:underline">Delete</a>
+                      <a href="#" className="font-medium text-red-500 hover:underline" onClick={() => handleDelete(data._id)}>Delete</a>
                       <a href="#" className="font-medium text-blue-500 hover:underline">Edit</a>
                     </td>
                   </tr>

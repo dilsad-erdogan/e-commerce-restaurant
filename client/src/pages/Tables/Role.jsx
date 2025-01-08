@@ -1,4 +1,4 @@
-import { Toaster } from "react-hot-toast"
+import toast, { Toaster } from "react-hot-toast"
 import AdminNavbar from "../../components/navbar/AdminNavbar"
 import Sidebar from "../../components/sidebar/Sidebar"
 import { useEffect, useState } from "react"
@@ -8,17 +8,26 @@ const Role = () => {
   const [role, setRole] = useState([])
 
   useEffect(() => {
-    const fetchCat = async () => {
-      try{
-        const data = await roleServices.get()
-        setRole(data.data)
-      } catch(error) {
-        console.error("Error fetching role: ", error)
-      }
-    }
-
-    fetchCat();
+    fetchRole();
   }, [])
+
+  const fetchRole = async () => {
+    try{
+      const data = await roleServices.get()
+      setRole(data.data)
+    } catch(error) {
+      toast.error("Error fetching role: ", error)
+    }
+  }
+
+  const handleDelete = async (id) => {
+    try{
+      await roleServices.deleted(id)
+      fetchRole()
+    } catch(error) {
+      toast.error("Error deleted role: ", error)
+    }
+  }
 
   return (
     <div className="container">
@@ -45,7 +54,7 @@ const Role = () => {
                   <tr key={data._id} className="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
                     <th className="px-6 py-4 font-medium whitespace-nowrap text-white">{data.name}</th>
                     <td className="px-6 py-4 flex gap-4 items-center">
-                      <a href="#" className="font-medium text-red-500 hover:underline">Delete</a>
+                      <a href="#" className="font-medium text-red-500 hover:underline" onClick={() => handleDelete(data._id)}>Delete</a>
                       <a href="#" className="font-medium text-blue-500 hover:underline">Edit</a>
                     </td>
                   </tr>

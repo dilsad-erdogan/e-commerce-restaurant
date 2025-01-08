@@ -1,4 +1,4 @@
-import { Toaster } from "react-hot-toast"
+import toast, { Toaster } from "react-hot-toast"
 import AdminNavbar from "../../components/navbar/AdminNavbar"
 import Sidebar from "../../components/sidebar/Sidebar"
 import { useEffect, useState } from "react"
@@ -8,17 +8,26 @@ const Product = () => {
   const [product, setProduct] = useState([])
 
   useEffect(() => {
-    const fetchCat = async () => {
-      try{
-        const data = await productServices.get()
-        setProduct(data.data)
-      } catch(error) {
-        console.error("Error fetching product: ", error)
-      }
-    }
-
-    fetchCat();
+    fetchProduct();
   }, [])
+
+  const fetchProduct = async () => {
+    try{
+      const data = await productServices.get()
+      setProduct(data.data)
+    } catch(error) {
+      toast.error("Error fetching product: ", error)
+    }
+  }
+
+  const handleDelete = async (id) => {
+    try{
+      await productServices.deleted(id)
+      fetchProduct()
+    } catch(error) {
+      toast.error("Error deleted product: ", error)
+    }
+  }
 
   return (
     <div className="container">
@@ -53,7 +62,7 @@ const Product = () => {
                       <img src={data.image} alt={data.name} className="w-16 h-16 rounded-full" />
                     </td>
                     <td className="px-6 py-4 flex gap-4 items-center">
-                      <a href="#" className="font-medium text-red-500 hover:underline">Delete</a>
+                      <a href="#" className="font-medium text-red-500 hover:underline" onClick={() => handleDelete(data._id)}>Delete</a>
                       <a href="#" className="font-medium text-blue-500 hover:underline">Edit</a>
                     </td>
                   </tr>
