@@ -31,9 +31,9 @@ const byId = async (id) => {
     }
 }
 
-const updateName = async (id, data) => {
+const updateName = async (id, name) => {
     try{
-        const response = await axios.put(`${ROLE}/updateName/${id}`, data);
+        const response = await axios.put(`${ROLE}/updateName/${id}`, name);
         return response.data;
     } catch (error){
         console.error('Error updating role time:', error);

@@ -3,9 +3,12 @@ import AdminNavbar from "../../components/navbar/AdminNavbar"
 import Sidebar from "../../components/sidebar/Sidebar"
 import { useEffect, useState } from "react"
 import roleServices from "../../services/role"
+import RoleModal from "../../components/modals/Edits/Role"
 
 const Role = () => {
   const [role, setRole] = useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [data, setData] = useState({})
 
   useEffect(() => {
     fetchRole();
@@ -27,6 +30,16 @@ const Role = () => {
     } catch(error) {
       toast.error("Error deleted role: ", error)
     }
+  }
+
+  const handleEdit = (data) => {
+    setData(data)
+    setIsModalOpen(true)
+  }
+
+  const handleModalClose = () => {
+    setIsModalOpen(false)
+    fetchRole()
   }
 
   return (
@@ -55,7 +68,7 @@ const Role = () => {
                     <th className="px-6 py-4 font-medium whitespace-nowrap text-white">{data.name}</th>
                     <td className="px-6 py-4 flex gap-4 items-center">
                       <a href="#" className="font-medium text-red-500 hover:underline" onClick={() => handleDelete(data._id)}>Delete</a>
-                      <a href="#" className="font-medium text-blue-500 hover:underline">Edit</a>
+                      <a href="#" className="font-medium text-blue-500 hover:underline" onClick={() => handleEdit(data)}>Edit</a>
                     </td>
                   </tr>
                 ))}
@@ -64,6 +77,8 @@ const Role = () => {
           </div>
         </div>
       </div>
+
+      <RoleModal isModalOpen={isModalOpen} setIsModalOpen={handleModalClose} data={data} />
     </div>
   )
 }
