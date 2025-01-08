@@ -31,9 +31,9 @@ const byId = async (id) => {
     }
 }
 
-const updateName = async (id, data) => {
+const updateName = async (id, name) => {
     try{
-        const response = await axios.put(`${TABLE}/updateName/${id}`, data);
+        const response = await axios.put(`${TABLE}/updateName/${id}`, name);
         return response.data;
     } catch (error){
         console.error('Error updating table time:', error);
@@ -41,9 +41,9 @@ const updateName = async (id, data) => {
     }
 }
 
-const updateNumber = async (id, data) => {
+const updateNumber = async (id, numberOfPeople) => {
     try{
-        const response = await axios.put(`${TABLE}/updateNumber/${id}`, data);
+        const response = await axios.put(`${TABLE}/updateNumber/${id}`, numberOfPeople);
         return response.data;
     } catch (error){
         console.error('Error updating table time:', error);
@@ -51,9 +51,9 @@ const updateNumber = async (id, data) => {
     }
 }
 
-const updateRate = async (id, data) => {
+const updateRate = async (id, occupancyRate) => {
     try{
-        const response = await axios.put(`${TABLE}/updateRate/${id}`, data);
+        const response = await axios.put(`${TABLE}/updateRate/${id}`, occupancyRate);
         return response.data;
     } catch (error){
         console.error('Error updating table time:', error);

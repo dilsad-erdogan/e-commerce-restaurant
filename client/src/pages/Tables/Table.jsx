@@ -3,9 +3,12 @@ import AdminNavbar from "../../components/navbar/AdminNavbar"
 import Sidebar from "../../components/sidebar/Sidebar"
 import { useEffect, useState } from "react"
 import tableServices from "../../services/table"
+import TableModal from "../../components/modals/Edits/Table"
 
 const Table = () => {
   const [table, setTable] = useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [data, setData] = useState({})
 
   useEffect(() => {
     fetchTable();
@@ -27,6 +30,16 @@ const Table = () => {
     } catch(error) {
       toast.error("Error deleted table: ", error)
     }
+  }
+
+  const handleEdit = (data) => {
+    setData(data)
+    setIsModalOpen(true)
+  }
+
+  const handleModalClose = () => {
+    setIsModalOpen(false)
+    fetchTable()
   }
 
   return (
@@ -59,7 +72,7 @@ const Table = () => {
                     <td className="px-6 py-4">{data.occupancyRate ? "True" : "False"}</td>
                     <td className="px-6 py-4 flex gap-4 items-center">
                       <a href="#" className="font-medium text-red-500 hover:underline" onClick={() => handleDelete(data._id)}>Delete</a>
-                      <a href="#" className="font-medium text-blue-500 hover:underline">Edit</a>
+                      <a href="#" className="font-medium text-blue-500 hover:underline" onClick={() => handleEdit(data)}>Edit</a>
                     </td>
                   </tr>
                 ))}
@@ -68,6 +81,8 @@ const Table = () => {
           </div>
         </div>
       </div>
+
+      <TableModal isModalOpen={isModalOpen} setIsModalOpen={handleModalClose} data={data} />
     </div>
   )
 }
