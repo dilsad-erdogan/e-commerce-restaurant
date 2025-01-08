@@ -3,12 +3,15 @@ import AdminNavbar from "../../components/navbar/AdminNavbar"
 import Sidebar from "../../components/sidebar/Sidebar"
 import { useEffect, useState } from "react"
 import userServices from "../../services/user"
+import roleServices from "../../services/role"
 
 const User = () => {
   const [user, setUser] = useState([])
+  const [role, setRole] = useState([])
 
   useEffect(() => {
     fetchUser();
+    fetchRole();
   }, [])
 
   const fetchUser = async () => {
@@ -17,6 +20,19 @@ const User = () => {
       setUser(data.data)
     } catch(error) {
       toast.error("Error fetching user: ", error)
+    }
+  }
+
+  const fetchRole = async () => {
+    try{
+      const allRole = await roleServices.get()
+      const roleMap = {};
+      allRole.data.forEach((data) => {
+        roleMap[data._id] = data.name;
+      });
+      setRole(roleMap)
+    } catch(error) {
+      toast.error("Error fetching role: ", error)
     }
   }
 
@@ -55,7 +71,7 @@ const User = () => {
                 {user.map((data) => (
                   <tr key={data._id} className="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
                     <th className="px-6 py-4 font-medium whitespace-nowrap text-white">{data.name}</th>
-                    <th className="px-6 py-4">{data.role}</th>
+                    <th className="px-6 py-4">{role[data.role]}</th>
                     <td className="px-6 py-4">{data.email}</td>
                     <td className="px-6 py-4 flex gap-4 items-center">
                       <a href="#" className="font-medium text-red-500 hover:underline" onClick={() => handleDelete(data._id)}>Delete</a>

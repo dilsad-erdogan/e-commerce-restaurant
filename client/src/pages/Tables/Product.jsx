@@ -3,15 +3,18 @@ import AdminNavbar from "../../components/navbar/AdminNavbar"
 import Sidebar from "../../components/sidebar/Sidebar"
 import { useEffect, useState } from "react"
 import productServices from "../../services/product"
+import categorieServices from "../../services/categorie"
 import ProductModal from "../../components/modals/Edits/Product"
 
 const Product = () => {
   const [product, setProduct] = useState([])
+  const [categories, setCategories] = useState({})
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [data, setData] = useState({})
 
   useEffect(() => {
     fetchProduct();
+    fetchCategories();
   }, [])
 
   const fetchProduct = async () => {
@@ -20,6 +23,19 @@ const Product = () => {
       setProduct(data.data)
     } catch(error) {
       toast.error("Error fetching product: ", error)
+    }
+  }
+
+  const fetchCategories = async () => {
+    try {
+      const allCategories = await categorieServices.get();
+      const categoryMap = {};
+      allCategories.data.forEach((cat) => {
+        categoryMap[cat._id] = cat.name;
+      });
+      setCategories(categoryMap);
+    } catch (error) {
+      toast.error("Error fetching categories: ", error);
     }
   }
 
@@ -57,7 +73,7 @@ const Product = () => {
             <table className="w-full text-sm text-left rtl:text-right text-gray-400">
               <thead className="text-xs uppercase bg-gray-700 text-gray-400">
                 <tr>
-                  <th scope="col" className="px-6 py-3">Categorie Id</th>
+                  <th scope="col" className="px-6 py-3">Categorie Name</th>
                   <th scope="col" className="px-6 py-3">Name</th>
                   <th scope="col" className="px-6 py-3">Description</th>
                   <th scope="col" className="px-6 py-3">Price</th>
@@ -69,7 +85,7 @@ const Product = () => {
               <tbody>
                 {product.map((data) => (
                   <tr key={data._id} className="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
-                    <th className="px-6 py-4 font-medium whitespace-nowrap text-white">{data.cat_id}</th>
+                    <th className="px-6 py-4 font-medium whitespace-nowrap text-white">{categories[data.cat_id] || "Unknown"}</th>
                     <th className="px-6 py-4 font-medium whitespace-nowrap text-white">{data.name}</th>
                     <td className="px-6 py-4">{data.description}</td>
                     <td className="px-6 py-4">{data.price}</td>
