@@ -54,6 +54,22 @@ async function getActiveOrder (req, res) {
     }
 }
 
+async function getActiveOrdersByTableId(req, res) {
+    try {
+      const id = req.params.id;
+      const activeOrders = await Order.find({ table_id: id, is_active: true });
+  
+      if (activeOrders.length > 0) {
+        res.status(200).json({ success: true, data: activeOrders });
+      } else {
+        res.status(404).json({ success: false, message: "No active orders found for this table." });
+      }
+    } catch (error) {
+      console.error("Error fetching active orders:", error);
+      res.status(500).json({ error: "Internal server error." });
+    }
+}
+
 async function getOrderById (req, res) {
     try{
         const id = req.params.id;
@@ -167,4 +183,4 @@ async function deleteOrder (req, res) {
     }
 }
 
-module.exports = { setOrder, getOrder, getActiveOrder, getOrderById, updateTable, updateProducts, updateStatus, updatePrice, deleteOrder }
+module.exports = { setOrder, getOrder, getActiveOrder, getActiveOrdersByTableId, getOrderById, updateTable, updateProducts, updateStatus, updatePrice, deleteOrder }

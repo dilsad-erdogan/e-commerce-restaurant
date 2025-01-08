@@ -31,6 +31,16 @@ const getActive = async () => {
     }
 }
 
+const getActiveOrdersByTableId = async (tableId) => {
+    try {
+      const response = await axios.get(`${ORDER}/active/${tableId}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching active orders:", error);
+      throw error;
+    }
+}
+
 const byId = async (id) => {
     try{
         const response = await axios.get(`${ORDER}/getById/${id}`);
@@ -95,6 +105,7 @@ const orderServices = {
     add,
     get,
     getActive,
+    getActiveOrdersByTableId,
     byId,
     updateTable,
     updateProducts,
