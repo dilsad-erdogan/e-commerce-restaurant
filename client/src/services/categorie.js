@@ -31,32 +31,32 @@ const byId = async (id) => {
     }
 }
 
-const updateName = async (id, data) => {
+const updateName = async (id, name) => {
     try{
-        const response = await axios.put(`${CATEGORIE}/updateName/${id}`, data);
+        const response = await axios.put(`${CATEGORIE}/updateName/${id}`, name);
         return response.data;
     } catch (error){
-        console.error('Error updating categorie time:', error);
+        console.error('Error updating categorie:', error);
         throw error;
     }
 }
 
-const updateDescription = async (id, data) => {
+const updateDescription = async (id, description) => {
     try{
-        const response = await axios.put(`${CATEGORIE}/updateDescription/${id}`, data);
+        const response = await axios.put(`${CATEGORIE}/updateDescription/${id}`, description);
         return response.data;
     } catch (error){
-        console.error('Error updating categorie time:', error);
+        console.error('Error updating categorie:', error);
         throw error;
     }
 }
 
-const updateImage = async (id, data) => {
+const updateImage = async (id, image) => {
     try{
-        const response = await axios.put(`${CATEGORIE}/updateImage/${id}`, data);
+        const response = await axios.put(`${CATEGORIE}/updateImage/${id}`, image);
         return response.data;
     } catch (error){
-        console.error('Error updating categorie time:', error);
+        console.error('Error updating categorie:', error);
         throw error;
     }
 }

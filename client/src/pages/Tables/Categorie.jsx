@@ -3,9 +3,12 @@ import AdminNavbar from "../../components/navbar/AdminNavbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { useEffect, useState } from "react";
 import categorieServices from "../../services/categorie";
+import CategorieModal from "../../components/modals/Edits/Categorie";
 
 const Categorie = () => {
   const [cat, setCat] = useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [data, setData] = useState({})
 
   useEffect(() => {
     fetchCat();
@@ -27,6 +30,16 @@ const Categorie = () => {
     } catch(error) {
       toast.error("Error deleted cat: ", error)
     }
+  }
+
+  const handleEdit = (data) => {
+    setData(data)
+    setIsModalOpen(true)
+  }
+
+  const handleModalClose = () => {
+    setIsModalOpen(false)
+    fetchCat()
   }
 
   return (
@@ -61,7 +74,7 @@ const Categorie = () => {
                     </td>
                     <td className="px-6 py-4 flex gap-4 items-center">
                       <a href="#" className="font-medium text-red-500 hover:underline" onClick={() => handleDelete(data._id)}>Delete</a>
-                      <a href="#" className="font-medium text-blue-500 hover:underline">Edit</a>
+                      <a href="#" className="font-medium text-blue-500 hover:underline" onClick={() => handleEdit(data)}>Edit</a>
                     </td>
                   </tr>
                 ))}
@@ -70,6 +83,8 @@ const Categorie = () => {
           </div>
         </div>
       </div>
+
+      <CategorieModal isModalOpen={isModalOpen} setIsModalOpen={handleModalClose} data={data} />
     </div>
   );
 };
