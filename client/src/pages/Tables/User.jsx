@@ -59,7 +59,6 @@ const User = () => {
                     <td className="px-6 py-4">{data.email}</td>
                     <td className="px-6 py-4 flex gap-4 items-center">
                       <a href="#" className="font-medium text-red-500 hover:underline" onClick={() => handleDelete(data._id)}>Delete</a>
-                      <a href="#" className="font-medium text-blue-500 hover:underline">Edit</a>
                     </td>
                   </tr>
                 ))}
