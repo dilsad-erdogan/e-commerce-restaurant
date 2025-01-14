@@ -109,16 +109,42 @@ async function updateTable (req, res) {
 async function updateProducts (req, res) {
     try{
         const id = req.params.id;
-        const { products } = req.body;
+        const { action, productId, quantity, newProduct } = req.body;
 
         const order = await Order.findById(id);
         if(!order) {
             return res.status(404).json({ success: false, message: 'Online order not found!' });
         }
 
-        order.products = products;
-        order.save();
+        switch (action) {
+            case 'add': // Yeni ürün ekle
+                if (!newProduct || !newProduct.product || !newProduct.quantity) {
+                    return res.status(400).json({ success: false, message: 'Invalid product data!' });
+                }
+                order.products.push(newProduct);
+                break;
 
+            case 'update': // Ürünün miktarını güncelle
+                const productToUpdate = order.products.find(
+                    (item) => item.product.toString() === productId
+                );
+                if (!productToUpdate) {
+                    return res.status(404).json({ success: false, message: 'Product not found in order!' });
+                }
+                productToUpdate.quantity = quantity;
+                break;
+
+            case 'delete': // Ürünü sil
+                order.products = order.products.filter(
+                    (item) => item.product.toString() !== productId
+                );
+                break;
+
+            default:
+                return res.status(400).json({ success: false, message: 'Invalid action!' });
+        }
+
+        order.save();
         res.status(200).json({ success: true, message: 'Order products updated successfully' });
     } catch(error) {
         console.error(error);
