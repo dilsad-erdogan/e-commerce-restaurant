@@ -1,4 +1,5 @@
 const Order = require("../models/Order");
+const Product = require("../models/Product");
 
 async function setOrder (req, res) {
     try{
@@ -57,7 +58,7 @@ async function getActiveOrder (req, res) {
 async function getActiveOrdersByTableId(req, res) {
     try {
       const id = req.params.id;
-      const activeOrders = await Order.find({ table_id: id, is_active: true });
+      const activeOrders = await Order.find({ table_id: id, paymentStatus: false });
   
       if (activeOrders.length > 0) {
         res.status(200).json({ success: true, data: activeOrders });
@@ -106,35 +107,64 @@ async function updateTable (req, res) {
     }
 }
 
-async function updateProducts (req, res) {
-    try{
+async function updateProducts(req, res) {
+    try {
         const id = req.params.id;
         const { action, productId, quantity, newProduct } = req.body;
 
         const order = await Order.findById(id);
-        if(!order) {
-            return res.status(404).json({ success: false, message: 'Online order not found!' });
+        if (!order) {
+            return res.status(404).json({ success: false, message: 'Order not found!' });
         }
 
         switch (action) {
-            case 'add': // Yeni ürün ekle
+            case 'add':
                 if (!newProduct || !newProduct.product || !newProduct.quantity) {
                     return res.status(400).json({ success: false, message: 'Invalid product data!' });
                 }
+
+                const productToAdd = await Product.findById(newProduct.product);
+                if (!productToAdd) {
+                    return res.status(404).json({ success: false, message: 'Product not found!' });
+                }
+
                 order.products.push(newProduct);
+                order.totalPrice += productToAdd.price * newProduct.quantity;
                 break;
 
-            case 'update': // Ürünün miktarını güncelle
+            case 'update':
                 const productToUpdate = order.products.find(
                     (item) => item.product.toString() === productId
                 );
                 if (!productToUpdate) {
                     return res.status(404).json({ success: false, message: 'Product not found in order!' });
                 }
+
+                const productInfo = await Product.findById(productId);
+                if (!productInfo) {
+                    return res.status(404).json({ success: false, message: 'Product not found!' });
+                }
+
+                const priceDifference = productInfo.price * (quantity - productToUpdate.quantity);
+                order.totalPrice += priceDifference;
+
                 productToUpdate.quantity = quantity;
                 break;
 
-            case 'delete': // Ürünü sil
+            case 'delete':
+                const productToDelete = order.products.find(
+                    (item) => item.product.toString() === productId
+                );
+                if (!productToDelete) {
+                    return res.status(404).json({ success: false, message: 'Product not found in order!' });
+                }
+
+                const productDetails = await Product.findById(productId);
+                if (!productDetails) {
+                    return res.status(404).json({ success: false, message: 'Product not found!' });
+                }
+
+                order.totalPrice -= productDetails.price * productToDelete.quantity;
                 order.products = order.products.filter(
                     (item) => item.product.toString() !== productId
                 );
@@ -144,11 +174,11 @@ async function updateProducts (req, res) {
                 return res.status(400).json({ success: false, message: 'Invalid action!' });
         }
 
-        order.save();
-        res.status(200).json({ success: true, message: 'Order products updated successfully' });
-    } catch(error) {
+        await order.save();
+        res.status(200).json({ success: true, message: 'Order products updated successfully', data: order });
+    } catch (error) {
         console.error(error);
-        res.status(500).json({ message: error });
+        res.status(500).json({ message: 'Internal server error!' });
     }
 }
 

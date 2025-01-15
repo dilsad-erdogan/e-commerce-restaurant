@@ -4,6 +4,7 @@ import Sidebar from "../components/sidebar/Sidebar"
 import { MdTableRestaurant } from "react-icons/md";
 import { useEffect, useState } from "react";
 import tableServices from "../services/table";
+import orderServices from "../services/order";
 import { useNavigate } from "react-router-dom";
 
 const TableManagement = () => {
@@ -14,8 +15,30 @@ const TableManagement = () => {
     fetchTable()
   }, [])
 
-  const handleTableClick = (tableId) => {
-    navigate(`/tables/${tableId}`);
+  const handleTableClick = async (table) => {
+    if(table.occupancyRate) {
+      try{
+        const occupancyRate = {
+          occupancyRate: false
+        };
+
+        const data = {
+          table_id: table._id,
+          products: [],
+          paymentStatus: false,
+          totalPrice: 0
+        }
+
+        await tableServices.updateRate(table._id, occupancyRate);
+        await orderServices.add(data);
+        toast.success('Order was opening!');
+        fetchTable();
+      } catch(error) {
+        toast.error("Error table opening: ", error)
+      }
+    } else {
+      navigate(`/tables/${table._id}`);
+    }
   };
 
   const fetchTable = async () => {
@@ -38,7 +61,7 @@ const TableManagement = () => {
         <div className="p-5 m-5">
           <div className="text-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {table.map((data) => (
-              <div key={data._id} onClick={() => handleTableClick(data._id)} className={`${'p-5 m-1 flex justify-between items-center rounded-xl min-w-[200px] w-[250px] h-[100px]'} ${data.occupancyRate ? 'bg-green-500' : 'bg-red-500'}`}>
+              <div key={data._id} onClick={() => handleTableClick(data)} className={`${'p-5 m-1 flex justify-between items-center rounded-xl min-w-[200px] w-[250px] h-[100px]'} ${data.occupancyRate ? 'bg-green-500' : 'bg-red-500'}`}>
                 <MdTableRestaurant className="text-4xl font-bold" />
                 <div>
                   <h2 className="text-xl font-bold">{data.name}</h2>
