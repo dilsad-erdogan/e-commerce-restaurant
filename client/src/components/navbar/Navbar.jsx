@@ -53,7 +53,7 @@ const Navbar = () => {
                     <Link to="/basket" className={`font-semibold ${isActive("/basket") ? "text-white" : "text-gray-400"} hover:text-white duration-200`}><BsBasket3Fill /></Link>
                     <div className="relative flex-1 mx-4">
                         <form onSubmit={handleSearch}>
-                            <input type="text" placeholder="Search Book" className="w-full rounded-2xl text-black border py-2 px-4" onChange={(e) => setSearch(e.target.value)} />
+                            <input type="text" placeholder="Search Food" className="w-full rounded-2xl text-black border py-2 px-4" onChange={(e) => setSearch(e.target.value)} />
                             <FaSearch className="absolute top-3 right-3 text-yellow-500" />
                         </form>
                     </div>
@@ -69,7 +69,7 @@ const Navbar = () => {
                     <Link to="/reservation" onClick={() => setIsMenuOpen(false)} className={`block py-2 font-semibold ${isActive("/reservation") ? "text-white" : "text-gray-400"} hover:text-white`}>reservation</Link>
                     <div className="relative flex-1">
                         <form onSubmit={handleSearch}>
-                            <input type="text" placeholder="Search Book" className="w-full rounded-2xl text-black border py-2 px-4" onChange={(e) => setSearch(e.target.value)} />
+                            <input type="text" placeholder="Search Food" className="w-full rounded-2xl text-black border py-2 px-4" onChange={(e) => setSearch(e.target.value)} />
                             <FaSearch className="absolute top-3 right-3 text-yellow-500" />
                         </form>
                     </div>

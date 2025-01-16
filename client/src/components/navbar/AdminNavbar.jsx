@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaUser, FaSearch } from "react-icons/fa";
-import { BsBasket3Fill } from "react-icons/bs";
 import User from "../modals/User";
 import Profile from "../modals/Profile";
 import Login from "../modals/Login";
@@ -36,11 +35,6 @@ const AdminNavbar = () => {
                 {/* Desktop Menu */}
                 <div className="hidden md:flex gap-5 items-center justify-center uppercase">
                     <Link className={`font-semibold ${isActive("/user") ? "text-white" : "text-gray-400"} hover:text-white duration-200`}><FaUser onClick={() => setIsModalOpen(true)} /></Link>
-                    <Link to="/basket" className={`font-semibold ${isActive("/basket") ? "text-white" : "text-gray-400"} hover:text-white duration-200`}><BsBasket3Fill /></Link>
-                    <div className="relative flex-1 mx-4">
-                        <input type="text" placeholder="Search Book" className="w-full rounded-2xl text-black border py-2 px-4" />
-                        <FaSearch className="absolute top-3 right-3 text-yellow-500" />
-                    </div>
                 </div>
             </div>
 
@@ -53,7 +47,6 @@ const AdminNavbar = () => {
                     </div>
                     <div className="flex gap-3">
                         <Link to="/" onClick={() => setIsMenuOpen(false)} className={`block py-2 font-semibold ${isActive("/") ? "text-white" : "text-gray-400"} hover:text-white`}><FaUser onClick={() => setIsModalOpen(true)} /></Link>
-                        <Link to="/basket" onClick={() => setIsMenuOpen(false)} className={`block py-2 font-semibold ${isActive("/basket") ? "text-white" : "text-gray-400"} hover:text-white`}><BsBasket3Fill /></Link>
                     </div>
                 </div>
             )}
